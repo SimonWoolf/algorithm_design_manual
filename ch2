@@ -1,4 +1,4 @@
-2-1.
+Ehlers Danlos Syndrome2-1.
 sum(i=1 to n-1) sum(j=i+1 to n) sum(k=1 to j) 1
 = sum(i=1 to n-1) sum(j=i+1 to n) j
 = sum(i=1 to n-1) i+1 + ... + n
@@ -6,12 +6,65 @@ sum(i=1 to n-1) sum(j=i+1 to n) sum(k=1 to j) 1
 = (n-1)(n(n+1)/2) - sum(i=1 to n-1) 1/2(i^2 + i)
 = (n-1)(n(n+1)/2) - 1/2(n(n-1)(2n-1)/6 + n(n-1)/2)
 = n^3/3 - n^2/3
-= O(n^3)
+∈ O(n^3)
 
 2-2
 sum(i=1 to n) sum(j=1 to i) sum(k=j to i+j) 1
 = sum(i=1 to n) sum(j=1 to i) i
 = sum(i=1 to n) i^2
 = (1/6)n(n+1)(2n+1)
+∈ O(n^3)
 
 2-3
+sum(i=1 to n) sum(j=1 to i) sum(k=j to i+j) sum(l=1 to i+j-k) 1
+= sum(i=1 to n) sum(j=1 to i) sum(k=j to i+j) i+j-k
+= sum(i=1 to n) sum(j=1 to i) (i(i+j) - 1/2(i+j)(i+j+1) - 1/2(j)(j+1))
+= sum(i=1 to n) sum(j=1 to i) (i^2/2 - i/2)
+= sum(i=1 to n) (i^3/2 - i^2/2)
+= (1/2)(1/4(n^2)(n+1)^2) - (n/6)(n+1)(2n+1))
+∈ O(n^4)
+
+2-7
+a. 2^{n+1} = 2.2^n ∈ O(2^n) (proof: just a constant multiple)
+b. 2^2n  ∈ Ω(2^n)
+proof: if not, there's some k with 2^2n <= k.2^n for n > N, but pick n > log k, then 2^2n = 2^n.2^n > k.2^n
+
+2-8
+a.
+log(n^2) ∈ Θ(log(n) + 5)
+proof:
+want k with 2 log n <= k(log n + 5), take k = 2
+want l with log(n) + 5 <= l(2 log n), take l = 1 and n > 2^5
+b. sqrt(n) ∈ Ω(log(n^2)) (as log(n^2) = 2 log n)
+c. (log n)^2 ∈ Ω(log n)
+d. n ∈ Ω((log n)^2)
+e. n log(n) + n ∈ Ω(log n)
+f. 10 ∈ Θ(log 10)
+g. 2^n ∈ Ω(10n^2)
+h. 2^n ∈ O(3^n) (consequence of proof of 2-7b)
+
+2-9
+a. f ∈ O(n^2), g ∈ O(n) so g ∈ O(f)
+b. f ∈ O(n log n), g ∈ O(n^{3/2}) so f ∈ O(g)
+c. f ∈ O(n log n), g ∈ O(n^{3/2}) so f ∈ O(g)
+d. f ∈ O(n), g ∈ O(n^{1/2}) so g ∈ O(f)
+e. f ∈ O((log n)^2), g ∈ O(log n) so g ∈ O(f)
+f. f ∈ O(n log n), g ∈ O(n^2) so f ∈ O(g)
+
+2-10
+wts n^3 - 3n^2 - n + 1 ∈ Θ(n^3)
+
+have n^3 - 3n^2 - n + 1 < n^3 for n >= 3, so fn is O(n^3)
+and n^3 - 3n^2 - n + 1 > 0.5n^3 for n >= 7, so fn is Ω(n^3)
+(bounds aren't minimal)
+
+2-11
+n^2 < 2^n for n > 4
+
+2-12
+
+
+
+
+
+
