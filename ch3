@@ -1,0 +1,64 @@
+3-1
+def is_balanced_and_nested(string s)
+  count = 0
+  for char, position in s
+    if char == "("
+      count++
+    else if char == ")"
+      if count > 0
+        count--
+      else
+        print "improperly nested at " + position
+        return false
+
+  if count !== 0
+    print "unbalanced"
+    return false
+
+  return true
+
+3-2
+# assuming I have head, tail, cons
+def reverse(list l)
+  reverse_helper(l, [])
+
+def reverse_helper(list, result)
+  if is_empty(list)
+    return result
+
+  return reverse_helper(tail(list), cons(head(list), result))
+
+3-3
+a. array of size 8, has 7 items
+add 2 items, grows to 16
+remove 2, it's less than half full, shrinks to 8
+repeat
+
+b. better strategy: cut in half when falls below a quarter full. Then in order to get a sequence like the one above, need to grow and shrink by a factor of 2 each time
+
+3-4
+initialize an array of length n. Pointer to item with key n goes at position n.
+
+3-5
+a. 0.25
+b. |leaves| / |leaves + internals|
+= n / (n + n-1)
+-> 0.5 asymptotically
+
+3-6
+give each node a pointer to the next and previous. Need to modify insert and delete to update the two either side of the inserted/deleted one
+
+3-7
+keep a note of the minimum and maximum elements. on insert and delete, check and update them if necessary
+
+3-8
+a balanced binary search tree would work except that deleting the kth smallest element would be min(T) + k successor ops, each of which is potentially up to log n, for a total of O(k.log(n)), not O(log(n)).
+
+So, a balanced search tree combined with... something
+
+gave up, looked up answer: https://en.wikipedia.org/wiki/Order_statistic_tree . store the size of the left subtree in the node, then can efficiently find the kth item.
+
+3-9
+can't you just add a new right-child to the maximal element of S_1, and plonk the root of S_2 there? or the reverse, if that would make it less unbalanced.
+
+3-10
