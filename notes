@@ -1,0 +1,31 @@
+containers
+==========
+data structure that permits storage & retrieval independent of content. e.g. stacks, queues. (as opposed to dicts etc. which do retrieval by key or value)
+
+stacks and queues can be efficiently implimented by either arrays or linked lists -- generally if upper bound on size is known in advance you'd use an array
+
+dictionaries
+============
+if implemented as an unsorted array, insert and delete are cheap, but search, succ/pred/min/max are O(n)
+if sorted, insert and delete are O(n), but search is O(log(n)), and the other ops are O(1)
+
+binary search trees
+===================
+root at top. each node has a value and up to two children. ordering: left child < parent < right child. even stonger: all transitive children of left child < parent < all transitive children of right child.
+
+Given a binary tree with n nodes, and a set of n keys, there's a unique labelling to make a binary search tree.
+
+To traverse, proceed recursively: search left, process centre, search right. guarantees that result is ordered
+
+insertion: trivial; unique.
+deletion: if leaf, trivial. If one child, replace with that. Otherwise replace with it's successor, i.e. the smallest value in its right subtree. This is guaranteed to be either a leaf or have one child, and will leave the rest of the tree still in order. (the largest value in the left subtree presumably works too, by symmetry)
+
+If key insertion order is random, high likelyhood that tree will be pretty much balanced (i.e. height O(log(n)). But worst case is linear. There are 'balanced search tree' data structures that adjust after each insertion to guarantee O(log n)
+
+priority queue
+==============
+queue where each item has a key which is its priority, and can efficiently find (and remove) the item with minimal or maximal priority, or insert with arbitrary priority.
+
+Implementation: sorted or unsorted array or balanced tree, but keep a pointer to the minimal element, updating it on delete
+
+

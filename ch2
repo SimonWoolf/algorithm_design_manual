@@ -61,10 +61,41 @@ and n^3 - 3n^2 - n + 1 > 0.5n^3 for n >= 7, so fn is Ω(n^3)
 2-11
 n^2 < 2^n for n > 4
 
-2-12
+2-43
+First thought: randomly permute the n numbers, then just pick the first k. Problem: randomly permuting requires >1 pass. But could solve that by permuting the first n integers, picking some k, then using those to choosing from S by index. Not very elegant, though.
 
+Can we do it just be choosing probabilistically? Pick first el with prob k/n. If picked, pick the second el with prob (k-1)/(n-1), else k/(n-1). Expected prob of picking second element is then
+(k/n)(k-1)/(n-1) + (1 - k/n)k/(n-1)
+= k(k-1)/n(n-1) + k(n-k)/n(n-1)
+= k/n
+by induction, prob of picking any element is k/n, but we are guaranteed k elements (in the worst case, where no elements are picked until the last k, prob of picking then becomes k/k = 1). So this works.
 
+If n is unknown then that doesn't seem possible. n may be arbitrarily large in which case prob of picking the first element should be arbitrarily small, but can't know that in advance
 
+2-44
+Simplest scheme would be item i is stored on nodes i, i+1, i+2 (modulo 1000). Data is only lost if three sequential nodes fail, and even then only one item, so expected number of items lost when 3 random nodes fail is
+1*p(sequential)
+= p(2nd next to first)*p(3rd next to first or second) + p(second one away from first)*p(third between them)
+= (2/1000)*(2/1000) + (2/1000)*(1/1000)
+= 0.000006
 
+Can we improve on that? Not sure we can. Clearly can't reduce the probability to 0 as can't have more than 3 replicas for every item by pigeonhole principle, so always a chance that you'll kill the three replicas that have some item on it. Can we reduce probability on that further than the above? Would guess not, but not sure how to prove it
 
+2-45
+expected number of assignments is expected number of times that A[i] < min(A[0..i-1])
+= p(A[1] < A[0]) + p(A[2] < A[1] and A[0]) + ...
+= 1/2 + 1/3 + 1/4 + ...
 
+i.e. the harmonic series, which grows as ln(N)
+
+2-46
+With an infinite supply of marbles, just do a binary search. log(N).
+With 2 marbles, go up in 10s from the bottom, then in 1s from the last good floor once the first one breaks
+with n marbles, go up in powers of x such that log_x(100) = n
+i.e. 100 = x^n
+x = nth root of 100
+e.g. if have 3 marbles, cube root of 100 is 4.6, so go up in 21s (4.6^2), then in 5s, then 1s
+
+2-47
+weigh one coin from the first bag, two from the second, ..., 10 from the tenth
+number of grams below the expected is the bag number
