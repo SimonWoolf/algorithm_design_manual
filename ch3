@@ -62,3 +62,48 @@ gave up, looked up answer: https://en.wikipedia.org/wiki/Order_statistic_tree . 
 can't you just add a new right-child to the maximal element of S_1, and plonk the root of S_2 there? or the reverse, if that would make it less unbalanced.
 
 3-10
+Assuming the w_i are in units of kg:
+naive approach:
+
+bins = []
+for weight in weights
+  for bin in bins
+    # binweights is sorted, so if there are any with enough room, the first is the one we want
+    if bin + weight < 1
+      bin += weight
+      bins.sort()
+      continue
+    # No bin has room; start a new one
+    bins.push(0) # push on to the end, so sorting preserved
+return length(bins)
+
+that's O(n^3) (as bins ~ weights in the worst case)
+to get to O(n log n), use a binary tree instead of a list of bins, so:
+
+bins = new BST
+for weight in weights
+  if there exists a largest node with value less than (1 - weight)
+    delete it
+    insert node with value (weight + weight of deleted node)
+  else
+    insert bin with value 0
+return number_of_nodes(bins)
+
+All the bst ops are log(n), so this is n log(n)
+
+For worst-fit, replace "if there exists a largest node with value less than (1 - weight)" with "if there exists a smallest node with value > 0 and value < (1 < weight)"
+
+3-11
+a. The number of (i,j) pairs is n^2. So a hash table from (i,j) to min([x_i, ..., x_j]) would fit this.
+b. Maybe something like: start with a complete binary tree with n leaves, where the leaves are the x_i, and every internal node stores the lowest value below it. This takes up 2n-1 = O(n) space. Then to find the lowest value between x_i and x_j, walk the tree from x_i upwards, and x_j upwards, until you meet, keeping a note of the smallest number you see in any node that represents a set of numbers completely within [x_i, x_j]. More specifically, the right child of any node you visit *after travelling rightwards* on the way up from x_i, and the left child of any node you visit after travelling leftwards up from x_j, will be completely contained within the interval. (plus x_i and x_j themselves). Then once you meet, take the min of your two mins. (Need to check whether you've met the other before looking at the left/right child, or will count too many things).
+
+I think that should work.
+
+Looked up solution: construct tree as above but store the range at each node, then can just start at the root and do
+def find_min(range, node)
+  if range entirely contained within current node's range, return node val
+  if no intersection, return +infty
+  return min(find_min(range, left), find_min(range, right))
+
+That's more elegant than my solution. Though mine technically takes up a bit less space as it doesn't have to store the range at each node.
+
