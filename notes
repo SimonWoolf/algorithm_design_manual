@@ -26,6 +26,29 @@ priority queue
 ==============
 queue where each item has a key which is its priority, and can efficiently find (and remove) the item with minimal or maximal priority, or insert with arbitrary priority.
 
-Implementation: sorted or unsorted array or balanced tree, but keep a pointer to the minimal element, updating it on delete
+Implementation: sorted or unsorted array or balanced tree, but keep a pointer to the minimal element, updating it on delete. Or a heap.
 
+heap
+====
+maintains a partial order that's weaker than the sorted order, but stronger than random order.
 
+Conceptually, a heap is a binary tree, where the root is at the top, and a node dominates (e.g. in a min-heap, 'is less than') its child nodes. In implementation, it's an array where the position of the keys replaces the role of pointers in a tree:
+[root, 1st level left, 1st level right, 2ll, 2lr, 2rl, 2rr, ...]
+
+so the parent of the nth node is in floor(n/2), it's children are in 2n and 2n+1.
+(downside: sparse, elements still take up space if they're missing. and no efficient way to search for some particular key -- it's not a BST. But if all you want is to get and delete the dominating element, like for a briority queue or a heapsort, it's fine)
+
+inserting an element: add to the leftmost empty position. check if it dominates its parent, if so, swap. repeat (i.e. bubble up). O(log(n))
+
+removing the topmost element: remove the root. take the furthest right leaf and move it to the root, and bubble down. O(log(n))
+
+heapsort: the removing the topmost element, appending it to an array. (== selection sort against a heap rather than a normal array)
+
+faster way of constructing a heap: rather than repeatedly insert, just chuck everything into the heap and call 'bubble down' on the first half of the array. (the last half are all leaves, so are already 'trivial heaps'). This is more or less linear, rather than n log n.
+
+Sorting
+=======
+General argument that all general comparison-based sorting algorithms are at least O(n log n): the sort must be able to distinguish every one of the n! different permutations. Each comparison can at most divide that possibility space in half (one bit of information). Then the number of comparisons necessary is log_2(n!) = \Theta(n log n)
+n! = n*(n-1)*... >= n/2 ^ n/2
+log_2(n!) = n/2 log_2(n/2)
+= O(n log n)
